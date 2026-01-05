@@ -1,0 +1,51 @@
+# Fichiers d'environnement avec secrets de production
+.env
+.env.local
+.env.production
+.envrc
+*.env
+!.env.example
+
+# Fichiers de build et dépendances
+node_modules/
+target/
+dist/
+build/
+*.class
+*.jar
+*.war
+
+# Fichiers d'IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.settings/
+.classpath
+.project
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Fichiers temporaires
+*.tmp
+*.temp
+.cache/
+
+# Fichiers uploadés (peuvent contenir des données sensibles)
+uploads/
+attestations/
+
+# Fichiers de sauvegarde
+*.bak
+*.backup
+

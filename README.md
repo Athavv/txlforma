@@ -6,7 +6,7 @@ TXLFORMA est une plateforme web complète de gestion de formations professionnel
 
 Le projet s'appuie sur une architecture moderne et sécurisée, avec un frontend en React et un backend en Spring Boot, garantissant à la fois performance, modularité et fiabilité.
 
-**🌐 Application en ligne :** [https://txlforma.vercel.app/catalogue](https://txlforma.vercel.app/catalogue)
+**🌐 Application en ligne :** [https://txlforma.vercel.app](https://txlforma.vercel.app)
 
 ---
 
@@ -101,7 +101,7 @@ Le projet s'appuie sur une architecture moderne et sécurisée, avec un frontend
 
 ### Base de données
 
-- **MySQL 8.0+** (via MySQL Connector/J)
+- **TiDB** (compatible MySQL)
 - **ORM :** Hibernate
 - **Tables principales :** user, formation, session, participation, note, attestation, payment, panier, category, etc.
 
@@ -127,9 +127,9 @@ Le projet s'appuie sur une architecture moderne et sécurisée, avec un frontend
 
 ### Hébergement et Déploiement
 
-- **Frontend :** Vercel (https://txlforma.vercel.app)
-- **Backend :** Render
-- **Base de données :** Aiven (MySQL)
+- **Frontend :** Vercel (https://txlforma.vercel.app) - hébergé séparément
+- **Backend :** Render - hébergé séparément
+- **Base de données :** TiDB
 
 ---
 
@@ -139,7 +139,7 @@ Le projet s'appuie sur une architecture moderne et sécurisée, avec un frontend
 
 - Java 21 ou supérieur
 - Maven 3.6+
-- MySQL 8.0+ (ou accès à une base de données MySQL hébergée)
+- TiDB (ou accès à une base de données TiDB hébergée)
 - Node.js et npm
 
 ### Étapes d'installation
@@ -150,45 +150,31 @@ Le projet s'appuie sur une architecture moderne et sécurisée, avec un frontend
    git clone <url-du-depot>
    ```
 
-2. **Configuration (optionnelle pour la production)** :
+2. Configurer la base de données MySQL :
 
-   Le projet est prêt à être utilisé avec Docker en développement. Les fichiers `application.properties` et `docker-compose.yml` contiennent des valeurs par défaut qui fonctionnent pour le développement local.
+   - Créer une base de données nommée `txlforma_db` (ou modifier la configuration dans `application.properties`).
+   - Mettre à jour les identifiants de connexion dans `back/src/main/resources/application.properties`.
 
-   ⚠️ **Pour la production** : Créez un fichier `.env` dans le dossier `back/` avec vos vraies clés :
-
-   ```bash
-   cd back
-   cp env.example .env
-   # Éditez .env avec vos vraies valeurs
-   ```
-
-   Les variables d'environnement dans `.env` seront automatiquement utilisées par Docker Compose et remplaceront les valeurs par défaut.
-
-3. **Lancer avec Docker** (recommandé) :
-
-   ```bash
-   cd back
-   docker-compose up -d
-   ```
-
-   L'application sera accessible sur :
-
-   - Frontend : http://localhost:3000
-   - Backend API : http://localhost:8080/api
-   - Base de données MySQL : localhost:3306
-
-   ⚠️ **Note** : Les valeurs par défaut fonctionnent pour le développement. Pour la production, créez un fichier `.env` avec vos vraies clés (voir étape 2).
-
-4. **Backend** :
+3. **Backend** :
 
    - Ouvrir le dossier `back` dans IntelliJ IDEA ou Spring Tool Suite (STS).
+   - Mettre à jour les identifiants de la base de données dans `application.properties` :
+     ```properties
+     spring.datasource.username=votre_username
+     spring.datasource.password=votre_password
+     ```
+   - Configurer la clé secrète Stripe dans `application.properties` :
+     ```properties
+     stripe.secret-key=votre_cle_secrete_stripe
+     stripe.webhook-secret=votre_webhook_secret
+     ```
    - Construire et exécuter le projet depuis l'IDE, ou via Maven :
      ```bash
      cd back
      ./mvnw spring-boot:run
      ```
 
-5. **Frontend** :
+4. **Frontend** :
    - Ouvrir le dossier `front` dans Visual Studio Code (VS Code).
    - Dans le terminal, exécuter :
      ```bash
@@ -278,7 +264,7 @@ osaas/
 
 ## Liens Utiles
 
-- **🌐 Application en ligne :** [https://txlforma.vercel.app/catalogue](https://txlforma.vercel.app/catalogue)
+- **🌐 Application en ligne :** [https://txlforma.vercel.app](https://txlforma.vercel.app)
 - **🎨 Maquettes Figma :** [https://www.figma.com/design/IIxFP43GEJJ02mPZn4A57v/MAQUETTE-SAE?node-id=35-2&p=f&t=CQtLuFEOD6vgsu4l-0](https://www.figma.com/design/IIxFP43GEJJ02mPZn4A57v/MAQUETTE-SAE?node-id=35-2&p=f&t=CQtLuFEOD6vgsu4l-0)
 - **📋 Gestion de projet Jira :** [https://osaass.atlassian.net/jira/software/projects/OSS/boards/1](https://osaass.atlassian.net/jira/software/projects/OSS/boards/1)
 
@@ -351,4 +337,5 @@ osaas/
 ## Licence
 
 Ce projet est développé dans le cadre d'un projet académique.
+
 # txlforma

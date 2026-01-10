@@ -2,8 +2,7 @@ package mmi.osaas.txlforma.config;
 
 import lombok.RequiredArgsConstructor;
 import mmi.osaas.txlforma.security.jwt.JwtAuthFilter;
-import mmi.osaas.txlforma.security.jwt.JwtAuthenticationEntryPoint;
-import mmi.osaas.txlforma.security.util.JwtUtils;
+import mmi.osaas.txlforma.security.jwt.JwtAuthenticationEntryPoint;import mmi.osaas.txlforma.security.util.JwtUtils;
 import mmi.osaas.txlforma.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,37 +54,39 @@ public class SecurityConfig {
                 .exceptionHandling(eh -> eh.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // PUBLIC - Accès sans authentification
+
+                        // PUBLIC
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/payments/webhook").permitAll()
-                        
-                        // PUBLIC READ - Lecture publique (GET uniquement)
+
+                        // PUBLIC READ
                         .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/formations/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/sessions/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/files/**").permitAll()
-                        
-                        // AUTHENTICATED - Tous les utilisateurs connectés
+                        .requestMatchers(HttpMethod.GET, "/api/participations/session/**").permitAll()
+
+                        // AUTHENTICATED 
                         .requestMatchers("/api/payments/**").authenticated()
                         .requestMatchers("/api/users/me").authenticated()
                         .requestMatchers("/api/users/{id}").authenticated()
                         .requestMatchers("/api/panier/**").authenticated()
                         .requestMatchers("/api/participations/me").authenticated()
-                        .requestMatchers("/api/participations/**").authenticated()
                         .requestMatchers("/api/emargements/**").authenticated()
                         .requestMatchers("/api/notes/**").authenticated()
                         .requestMatchers("/api/attestations/**").authenticated()
-                        
-                        // FILE UPLOAD - Upload de fichiers authentifié
+                        .requestMatchers(HttpMethod.POST, "/api/files/upload/users").permitAll()
+
+                        // FILE UPLOAD
                         .requestMatchers(HttpMethod.POST, "/api/files/upload/**").authenticated()
-                        
-                        // FORMATEUR/ADMIN - Formateurs et administrateurs
+
+                        // FORMATEUR/ADMIN
                         .requestMatchers("/api/emargements/session/**").hasAnyRole("FORMATEUR", "ADMIN")
                         .requestMatchers("/api/notes/session/**").hasAnyRole("FORMATEUR", "ADMIN")
                         .requestMatchers("/api/formateur/**").hasRole("FORMATEUR")
-                        
-                        // ADMIN ONLY - Administrateurs uniquement
+
+                        // ADMIN ONLY
                         .requestMatchers("/api/statistics/**").hasRole("ADMIN")
                         .requestMatchers("/api/attestations/regenerate/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/categories/**").hasRole("ADMIN")
@@ -100,8 +101,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/sessions/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/sessions/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/sessions/**").hasRole("ADMIN")
-                        
-                        // FALLBACK - Toute autre requête nécessite une authentification
+
+                        // FALLBACK
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

@@ -6,6 +6,18 @@
 *.env
 !.env.example
 
+# Fichiers de configuration avec secrets
+# Backend
+back/src/main/resources/application.properties
+!back/src/main/resources/application.properties.example
+back/application.properties
+back/.env
+
+# Frontend
+front/.env
+front/.env.local
+front/.env.production
+
 # Fichiers de build et dépendances
 node_modules/
 target/
@@ -44,6 +56,8 @@ logs/
 # Fichiers uploadés (peuvent contenir des données sensibles)
 uploads/
 attestations/
+back/uploads/
+back/attestations/
 
 # Fichiers de sauvegarde
 *.bak

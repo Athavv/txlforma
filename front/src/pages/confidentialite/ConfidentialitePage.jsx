@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Lottie from "lottie-react";
 import Header from "../../components/common/layout/Header";
+import Footer from "../../components/common/layout/Footer";
 import starorange from "../../assets/images/home/starorange.png";
 import catalogData from "../../assets/json/catalog.json";
 
@@ -258,11 +259,13 @@ export default function ConfidentialitePage() {
           <Link
             to="/"
             className="inline-block bg-noir text-blanc rounded-full px-8 py-3 hover:-translate-y-1 active:bg-vert active:text-noir transition-all"
+            onClick={() => window.scrollTo(0, 0)}
           >
             Retour à l'accueil
           </Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

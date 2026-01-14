@@ -275,7 +275,7 @@ osaas/
 
 **Page d'accueil :**
 
-<img width="1512" height="861" alt="Home" src="images/home.png.webp" />
+<img width="100%" alt="Home" src="images/home.png.webp" />
 
 **Page de connexion :**
 
@@ -287,7 +287,7 @@ osaas/
 
 **Catalogue de formations :**
 
-<img width="1512" height="863" alt="Catalogue" src="images/catalogue.png" />
+<img width="100%" alt="Catalogue" src="images/catalogue.png" />
 
 **Détail d'une formation :**
 

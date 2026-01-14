@@ -78,11 +78,8 @@ Le projet s'appuie sur une architecture moderne et sécurisée, avec un frontend
 - **UI Components :** Ant Design 6, Lucide React Icons
 - **Styling :** Tailwind CSS 3, PostCSS, Autoprefixer
 - **Communication API :** Axios
-- **Paiement :** Stripe React SDK (@stripe/react-stripe-js 5, @stripe/stripe-js 8)
 - **Visualisation de données :** Chart.js 4, React Chart.js 2 5
 - **Animations :** Lottie React 2
-- **Linting :** ESLint 9
-- **TypeScript Types :** @types/react, @types/react-dom
 
 ### Backend
 
@@ -97,7 +94,6 @@ Le projet s'appuie sur une architecture moderne et sécurisée, avec un frontend
 - **Paiement :** Stripe Java SDK 24.16.0
 - **Génération PDF :** iTextPDF 7.2.5 (kernel, layout)
 - **Outils de développement :** Lombok, Spring Boot DevTools
-- **Tests :** Spring Boot Starter Test (JPA, Security, WebMVC)
 
 ### Base de données
 
@@ -115,15 +111,14 @@ Le projet s'appuie sur une architecture moderne et sécurisée, avec un frontend
 
 ### Workflow de Développement
 
-- **GitFlow Workflow :** Chaque ticket Jira correspond à une branche Git
+- **Workflow Git :** Chaque ticket Jira correspond à une branche Git
 - **Processus :**
-  1. Création d'une branche depuis `develop` pour chaque ticket
+  1. Création d'une branche `feature` depuis `main` pour chaque ticket
   2. Développement de la fonctionnalité
-  3. Rebase régulier sur `develop` pour maintenir la branche à jour
-  4. Création d'une Pull Request sur Bitbucket
+  3. Rebase régulier sur `main` pour maintenir la branche à jour
+  4. Création d'une Pull Request sur GitHub
   5. Review par au moins 2 membres de l'équipe
-  6. Merge dans `develop` après validation
-- **Estimation :** Planning Poker avec suite de Fibonacci
+  6. Merge dans `main` après validation
 
 ### Hébergement et Déploiement
 
@@ -137,50 +132,65 @@ Le projet s'appuie sur une architecture moderne et sécurisée, avec un frontend
 
 ### Prérequis
 
-- Java 21 ou supérieur
-- Maven 3.6+
-- TiDB (ou accès à une base de données TiDB hébergée)
-- Node.js et npm
+- Docker et Docker Compose installés sur votre machine
 
-### Étapes d'installation
+### Étapes d'installation avec Docker
 
 1. Cloner le dépôt :
 
    ```bash
-   git clone <url-du-depot>
+   git clone https://github.com/Athavv/txlforma.git
+   cd txlforma
    ```
 
-2. Configurer la base de données MySQL :
+2. Créer un fichier `.env` dans le dossier `back` avec les variables d'environnement nécessaires :
 
-   - Créer une base de données nommée `txlforma_db` (ou modifier la configuration dans `application.properties`).
-   - Mettre à jour les identifiants de connexion dans `back/src/main/resources/application.properties`.
+   ```bash
+   cd back
+   cp .env.example .env  # Si un fichier .env.example existe
+   ```
 
-3. **Backend** :
+   Ou créer manuellement un fichier `.env` avec les variables suivantes :
 
-   - Ouvrir le dossier `back` dans IntelliJ IDEA ou Spring Tool Suite (STS).
-   - Mettre à jour les identifiants de la base de données dans `application.properties` :
-     ```properties
-     spring.datasource.username=votre_username
-     spring.datasource.password=votre_password
-     ```
-   - Configurer la clé secrète Stripe dans `application.properties` :
-     ```properties
-     stripe.secret-key=votre_cle_secrete_stripe
-     stripe.webhook-secret=votre_webhook_secret
-     ```
-   - Construire et exécuter le projet depuis l'IDE, ou via Maven :
-     ```bash
-     cd back
-     ./mvnw spring-boot:run
-     ```
+   ```env
+   SPRING_DATASOURCE_USERNAME=votre_username
+   SPRING_DATASOURCE_PASSWORD=votre_password
+   APP_JWT_SECRET=votre_secret_jwt_plus_de_32_caracteres
+   STRIPE_SECRET_KEY=votre_cle_secrete_stripe
+   STRIPE_WEBHOOK_SECRET=votre_webhook_secret_stripe
+   VITE_API_BASE_URL=http://localhost:8080/api
+   ```
 
-4. **Frontend** :
-   - Ouvrir le dossier `front` dans Visual Studio Code (VS Code).
-   - Dans le terminal, exécuter :
-     ```bash
-     npm install
-     npm run dev
-     ```
+3. Démarrer les services avec Docker Compose :
+
+   ```bash
+   cd back
+   docker-compose up -d
+   ```
+
+   Cette commande va :
+
+   - Démarrer la base de données sur le port 4000
+   - Construire et démarrer le backend Spring Boot sur le port 8080
+   - Construire et démarrer le frontend React sur le port 3000
+
+4. Accéder à l'application :
+
+   - Frontend : http://localhost:3000
+   - Backend API : http://localhost:8080/api
+   - Base de données TiDB : localhost:4000
+
+5. Pour arrêter les services :
+
+   ```bash
+   docker-compose down
+   ```
+
+6. Pour voir les logs :
+
+   ```bash
+   docker-compose logs -f
+   ```
 
 ---
 
@@ -214,7 +224,6 @@ Le projet s'appuie sur une architecture moderne et sécurisée, avec un frontend
 ## Documentation API
 
 - Collection Postman disponible dans `back/TXLFORMA_API.postman_collection.json`
-- Documentation des services API dans `front/src/api/README.md`
 
 ---
 
@@ -254,14 +263,6 @@ osaas/
 
 ---
 
-## Contribution
-
-- Ouvrir des issues pour signaler des bugs ou suggérer des fonctionnalités
-- Soumettre des pull requests pour améliorer le projet
-- Les retours et contributions sont grandement appréciés
-
----
-
 ## Liens Utiles
 
 - **🌐 Application en ligne :** [https://txlforma.vercel.app](https://txlforma.vercel.app)
@@ -274,63 +275,47 @@ osaas/
 
 **Page d'accueil :**
 
-<img width="1512" height="861" alt="Home" src="https://via.placeholder.com/1512x861?text=Home+Page" />
+<img width="1512" height="861" alt="Home" src="images/home.png.webp" />
 
 **Page de connexion :**
 
-<img width="1512" height="858" alt="Login" src="https://via.placeholder.com/1512x858?text=Login+Page" />
+<img width="1512" height="858" alt="Login" src="images/login.png" />
 
 **Page d'inscription :**
 
-<img width="1512" height="858" alt="Register" src="https://via.placeholder.com/1512x858?text=Register+Page" />
+<img width="1512" height="858" alt="Register" src="images/inscription.png" />
 
 **Catalogue de formations :**
 
-<img width="1512" height="863" alt="Catalogue" src="https://via.placeholder.com/1512x863?text=Catalogue" />
+<img width="1512" height="863" alt="Catalogue" src="images/catalogue.png" />
 
 **Détail d'une formation :**
 
-<img width="1512" height="860" alt="Formation Detail" src="https://via.placeholder.com/1512x860?text=Formation+Detail" />
+<img width="1512" height="860" alt="Formation Detail" src="images/detailsformation.png" />
 
 **Panier :**
 
-<img width="1512" height="862" alt="Panier" src="https://via.placeholder.com/1512x862?text=Panier" />
+<img width="1512" height="862" alt="Panier" src="images/panier.png.webp" />
 
 **Paiement Stripe :**
 
-<img width="1512" height="861" alt="Payment" src="https://via.placeholder.com/1512x861?text=Payment+Stripe" />
+<img width="1512" height="861" alt="Payment" src="images/paiement.png.webp" />
 
 **Tableau de bord Administrateur :**
 
-<img width="1512" height="864" alt="Admin Dashboard" src="https://via.placeholder.com/1512x864?text=Admin+Dashboard" />
+<img width="1512" height="864" alt="Admin Dashboard" src="images/dashboardadmin.png.webp" />
 
 **Tableau de bord Formateur :**
 
-<img width="1512" height="862" alt="Formateur Dashboard" src="https://via.placeholder.com/1512x862?text=Formateur+Dashboard" />
+<img width="1512" height="862" alt="Formateur Dashboard" src="images/dashboardformateur.png.webp" />
 
 **Tableau de bord Utilisateur :**
 
-<img width="1512" height="857" alt="User Dashboard" src="https://via.placeholder.com/1512x857?text=User+Dashboard" />
-
-**Gestion des formations (Admin) :**
-
-<img width="1512" height="861" alt="Formations Management" src="https://via.placeholder.com/1512x861?text=Formations+Management" />
-
-**Gestion des sessions (Admin) :**
-
-<img width="1512" height="861" alt="Sessions Management" src="https://via.placeholder.com/1512x861?text=Sessions+Management" />
+<img width="1512" height="857" alt="User Dashboard" src="images/dashboarduser.png.webp" />
 
 **Émargement :**
 
-<img width="1512" height="863" alt="Emargement" src="https://via.placeholder.com/1512x863?text=Emargement" />
-
-**Attestations :**
-
-<img width="1512" height="863" alt="Attestations" src="https://via.placeholder.com/1512x863?text=Attestations" />
-
-**Statistiques :**
-
-<img width="1512" height="862" alt="Statistics" src="https://via.placeholder.com/1512x862?text=Statistics" />
+<img width="1512" height="863" alt="Emargement" src="images/emargement.png.webp" />
 
 ---
 
